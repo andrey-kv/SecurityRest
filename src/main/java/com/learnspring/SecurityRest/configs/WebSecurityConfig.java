@@ -18,15 +18,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.http.HttpServletResponse;
-
 @Slf4j
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final JwtTokenFilter jwtTokenFilter;
+    private final AuthenticationEntryPoint unauthorizedEntryPoint;
+
     @Autowired
-    JwtTokenFilter jwtTokenFilter;
+    public WebSecurityConfig(JwtTokenFilter jwtTokenFilter, AuthenticationEntryPoint unauthorizedEntryPoint) {
+        this.jwtTokenFilter = jwtTokenFilter;
+        this.unauthorizedEntryPoint = unauthorizedEntryPoint;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -39,14 +43,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         log.info("Configure web security");
         http.httpBasic().disable().csrf().disable()
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/products").permitAll()
-                .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/auth/register").permitAll()
-                .antMatchers("/api/products/**").hasAuthority("ADMIN").anyRequest().authenticated().and().csrf()
-                .disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
+                .antMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                .antMatchers("/api/products/**").hasAuthority("ADMIN").anyRequest().authenticated()
+                .and().csrf().disable()
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint);
     }
 
     @Bean
@@ -60,11 +64,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public AuthenticationEntryPoint unauthorizedEntryPoint() {
-        return (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                "Unauthorized");
-    }
+//    @Bean
+//    public AuthenticationEntryPoint unauthorizedEntryPoint() {
+//        return (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+//                "Unauthorized");
+//    }
 
     @Bean
     public UserDetailsService mongoUserDetails() {
