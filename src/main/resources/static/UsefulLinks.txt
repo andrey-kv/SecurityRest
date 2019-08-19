@@ -1,0 +1,11 @@
+Securing RESTful API with Spring Boot, Security, and Data MongoDB
+https://www.djamware.com/post/5c819d0180aca754f7a9d1ee/securing-restful-api-with-spring-boot-security-and-data-mongodb
+
+Про токены, JSON Web Tokens (JWT), аутентификацию и авторизацию. Token-Based Authentication
+https://gist.github.com/zmts/802dc9c3510d79fd40f9dc38a12bccfc
+
+Обзор способов и протоколов аутентификации в веб-приложениях
+https://habr.com/ru/company/dataart/blog/262817/
+
+Spring Boot Security + JSON Web Token (JWT) 'Hello World' Example
+https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world

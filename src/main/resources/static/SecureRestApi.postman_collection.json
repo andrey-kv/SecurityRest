@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "1a6c6a02-b49a-4f2b-b582-f4ab41987ecd",
+		"name": "SecureRestApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "All products",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjJAc2VjdXJlcmVzdC5jb20iLCJyb2xlcyI6W3siaWQiOiI1ZDU3MDA2YzRhMmQ4NDJiMzRkOGRjMTMiLCJyb2xlIjoiQURNSU4ifV0sImlhdCI6MTU2NTk4Mzk1NiwiZXhwIjoxNTY1OTg3NTU2fQ.xTGajTrPhUFnnW0myTW5XUl6oX0L4NJYzNFGgJo3JJI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get product by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjJAc2VjdXJlcmVzdC5jb20iLCJyb2xlcyI6W3siaWQiOiI1ZDU3MDA2YzRhMmQ4NDJiMzRkOGRjMTMiLCJyb2xlIjoiQURNSU4ifV0sImlhdCI6MTU2NjI0NDg4MCwiZXhwIjoxNTY2MjQ4NDgwfQ.bWQDsYOWZmurIn-JZjsz7L6doN4Oq5XxRc5iOYNtJ3w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/5d5705534a2d8422b0423439",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"5d5705534a2d8422b0423439"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get product by ID with expired token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjJAc2VjdXJlcmVzdC5jb20iLCJyb2xlcyI6W3siaWQiOiI1ZDU3MDA2YzRhMmQ4NDJiMzRkOGRjMTMiLCJyb2xlIjoiQURNSU4ifV0sImlhdCI6MTU2NTk5ODM0NywiZXhwIjoxNTY2MDAxOTQ3fQ.UB_WcgAYoNOTJBEZW-tl6b4GWxbdg6PIHv_T263rILY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/products/5d5705534a2d8422b0423439",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"5d5705534a2d8422b0423439"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjJAc2VjdXJlcmVzdC5jb20iLCJyb2xlcyI6W3siaWQiOiI1ZDU3MDA2YzRhMmQ4NDJiMzRkOGRjMTMiLCJyb2xlIjoiQURNSU4ifV0sImlhdCI6MTU2NjI0NDg4MCwiZXhwIjoxNTY2MjQ4NDgwfQ.bWQDsYOWZmurIn-JZjsz7L6doN4Oq5XxRc5iOYNtJ3w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"prodName\": \"Dummy Product 2\",\r\n    \"prodDesc\": \"The Freshest Dummy Product in The world part 2\",\r\n    \"prodPrice\": 120,\r\n    \"prodImage\": \"https://dummyimage2.com/600x400/000/fff\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullname\" : \"admin\",\r\n    \"email\" : \"admin@securerest.com\",\r\n    \"password\" : \"password123\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"admin@securerest.com\",\r\n    \"password\" : \"password123\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
