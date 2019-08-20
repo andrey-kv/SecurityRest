@@ -1,5 +1,8 @@
 package com.learnspring.SecurityRest.configs;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learnspring.SecurityRest.models.ErrorResponse;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -34,16 +37,27 @@ public class JwtTokenFilter extends GenericFilterBean {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
             filterChain.doFilter(req, res);
-        } catch (RuntimeException ex) {
-            HttpServletResponse response = (HttpServletResponse) res;
+        } catch (JwtException ex) {
             log.info("Exception: " + ex.getMessage() + ", response commited = " + res.isCommitted());
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\"timestamp\": \"2019-08-19T22:00:52.001+0000\",\"status\": 401," +
-                    " \"error\": \"Unauthorized\", \"message\": \"Unauthorized\"}");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().flush();
-            response.getWriter().close();
+            prepareResponse(res, HttpServletResponse.SC_UNAUTHORIZED, ex);
+        } catch (RuntimeException ex) {
+            log.info("Exception: " + ex.getMessage());
+            prepareResponse(res, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex);
         }
+    }
+
+    private void prepareResponse(ServletResponse res, int status, RuntimeException ex) throws IOException {
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+
+        ErrorResponse errorResponse = new ErrorResponse(status, ex);
+        res.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+
+        if (res instanceof HttpServletResponse) {
+            ((HttpServletResponse) res).setStatus(status);
+         }
+
+        res.getWriter().flush();
+        res.getWriter().close();
     }
 }
